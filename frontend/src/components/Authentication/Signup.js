@@ -20,8 +20,62 @@ const Signup = () => {
     const [pic, setPic] = useState();
     const [picLoading, setPicLoading] = useState(false);
 
-    const submitHandler = () => {
+    const submitHandler = async () => {
+        setPicLoading(true);
+        if(!name || !email || !password || !confirmpassword) {
+            toast({
+                title: "Please fill all the fields",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-right"
+            });
+            setPicLoading(false);
+            return;
+        }
+        if (password !== confirmpassword) {
+            toast({
+                title: "Password and confirm password doesnot match",
+                status: "warning",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-right"
+            });
+            setPicLoading(false);
+            return;
+        }
 
+        try {
+            const config = {
+                headers: {
+                    "Content-type" : "application/json"
+                }
+            };
+
+            const {data} = await axios.post("/api/user" , {name,email,password}, config);
+
+            toast({
+                title: "Registration Successful",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-right"
+            });
+
+            localStorage.setItem("userInfo", JSON.stringify(data));
+            setPicLoading(false);
+            history.push('/chats');
+        } catch (error) {
+            toast({
+                title: "Error Occured!",
+                description: error.response.data.message,
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+                position: "bottom-right"
+            });
+            setPicLoading(false);
+        }
     }
     const postDetails = () => {
 
@@ -74,7 +128,7 @@ const Signup = () => {
                     </InputRightElement>
                 </InputGroup>
             </FormControl>
-            <FormControl id="pic">
+            {/* <FormControl id="pic">
                 <FormLabel>Upload your Picture</FormLabel>
                 <Input
                     type="file"
@@ -82,7 +136,7 @@ const Signup = () => {
                     accept="image/*"
                     onChange={(e) => postDetails(e.target.files[0])}
                 />
-            </FormControl>
+            </FormControl> */}
             <Button
                 colorScheme="blue"
                 width="100%"
