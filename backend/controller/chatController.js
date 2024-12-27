@@ -99,7 +99,7 @@ const renameGroup = asyncHandler(async (req, res) => {
         chatId,
         {
             chatName: chatName
-        }, { new: true }
+        }, { new: true } // new true will return the updated value
     ).populate("users", "-password")
         .populate("groupAdmin", "-password");
 
