@@ -10,6 +10,7 @@ npm install bcryptjs
 npx create-react-app frontend
 npm install react-router-dom@5
 npm install axios
+npm install react-scrollable-feed --legacy-peer-deps
 
 31Cvvw13JfRTl8yH
 silpakaprashant
